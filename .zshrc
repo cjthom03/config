@@ -12,9 +12,6 @@ export FZF_DEFAULT_COMMAND='ag --hidden -l -g ""'
 eval "$(rbenv init -)"
 export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
 
-#DG
-export RAILS_MASTER_KEY='4e02d401fdf945ef2134c154004022ca'
-
 # Node
 export NVM_DIR="$HOME/.nvm"
 source $(brew --prefix nvm)/nvm.sh
