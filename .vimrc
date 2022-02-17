@@ -9,9 +9,6 @@ set nocompatible
 " Use system clipboard
 set clipboard=unnamed
 
-" Turn file autodetect off, required for Vundle
-filetype off
-
 " Show relative line numbers
 set number relativenumber
 set noswapfile
@@ -56,13 +53,15 @@ augroup WhiteSpace
   autocmd!
   autocmd BufEnter * EnableStripWhitespaceOnSave  " trim whitespace on save
 augroup END
+
 " Loads vim-plug if needed
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-" Plug - used for Prettier
+
+" Plug - manage all the plugins
 call plug#begin('~/.local/share/nvim/plugged')
 " General Plugins
 Plug 'scrooloose/nerdtree'            " Directory Tree
@@ -73,7 +72,6 @@ Plug 'tpope/vim-surround'             " Editing, deleting strings, parentheses, 
 Plug 'tpope/vim-rails'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " Search for files
 Plug 'junegunn/fzf.vim'
-"Plug 'rakr/vim-one'                   " Atom one dark theme
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'ntpeters/vim-better-whitespace' " Trims trailing whitespace
 Plug 'tpope/vim-unimpaired'
@@ -86,12 +84,11 @@ Plug 'tpope/vim-endwise'
 Plug 'andrewradev/splitjoin.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'Asheq/close-buffers.vim'
-"Plug 'edkolev/tmuxline.vim'
-"Plug 'kana/vim-textobj-line'
 Plug 'henrik/vim-reveal-in-finder'
 " Plug 'ervandew/supertab' " Tab autocomplete
 Plug 'dyng/ctrlsf.vim'
 Plug 'tpope/vim-abolish'
+
 " Web Dev Plugins
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }     " Javascript Highlighter
 Plug 'mxw/vim-jsx', { 'for': 'javascript' }                 " JSX Syntax Highlighter
@@ -114,6 +111,7 @@ Plug 'kana/vim-textobj-user', { 'for': 'ruby' } " Required for vim-textobj-rubyb
 Plug 'nelstrom/vim-textobj-rubyblock', { 'for': 'ruby' }
 Plug 'sbdchd/neoformat'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+
 " Markdown / Writing Plugins
 Plug 'reedes/vim-pencil'
 Plug 'junegunn/goyo.vim'
@@ -121,7 +119,13 @@ Plug 'junegunn/goyo.vim'
 "Plug 'jtratner/vim-flavored-markdown'
 Plug 'JamshedVesuna/vim-markdown-preview' "Markdown Previewer
 
+" Colors
+Plug 'morhetz/gruvbox'                                      " Retro groove color scheme for Vim
+  set termguicolors
+  autocmd vimenter * ++nested colorscheme gruvbox
+  let g:gruvbox_contrast_dark = 'hard'
 call plug#end()
+
 " Neoformat
 " vim-prettier is currently using a global executable
 augroup NeoformatAutoFormat
@@ -165,20 +169,36 @@ let g:closetag_shortcut = '>'
 " Add > at current position without closing the current tag, default is ''
 "
 let g:closetag_close_shortcut = '<leader>>'
+
 " Airline
-let g:airline#extensions#tabline#enabled = 1
-set laststatus=2
-let g:airline#extensions#tabline#fnamemod = ':t'
+set laststatus=2                                      " window will always have a status line
+let g:airline#extensions#tabline#enabled = 1          " show buffers at the top of the screen
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#fnamemod = ':t'      " only show the file name in the buffers list at the top
+
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
-let g:airline_symbols.space = "\ua0"
-let g:airline_theme='solarized'
+"let g:airline_left_sep = '>'
+"let g:airline_left_sep = '»'
+"let g:airline_left_sep = '▶'
+"let g:airline_right_sep = '«'
+"let g:airline_right_sep = '◀'
+"let g:airline_symbols.linenr = '␊'
+"let g:airline_symbols.linenr = '␤'
+"let g:airline_symbols.linenr = '¶'
+"let g:airline_symbols.branch = '⎇'
+"let g:airline_symbols.paste = 'ρ'
+"let g:airline_symbols.paste = 'Þ'
+"let g:airline_symbols.paste = '∥'
+"let g:airline_symbols.whitespace = 'Ξ'
+"let g:airline_theme='solarized'
+
 " Required for coffeescript
 syntax enable               " Syntax highlighting
 filetype plugin indent on
 let mapleader=" "   " map space to leader
+
 " NERDTree
 nmap <leader>pt :NERDTreeTabsToggle<CR>
 nmap <leader>pf :NERDTreeFind<CR>
@@ -186,7 +206,9 @@ let g:NERDTreeWinPos = 'right'
 let g:NERDTreeShowHidden=1
 
 " FZF
-map <C-b> :Buffers<CR>
+map <C-b> :Buffers<CR>          " show all buffers in a pop up window
+nmap <leader>bn :bn<CR>         " go to the next buffer
+nmap <leader>bp :bp<CR>         " go to the previous buffer
 map <C-f> :Ag<CR>
 map <C-h> :History<CR>
 map <C-p> :Files<CR>
@@ -243,7 +265,6 @@ augroup end
 
 
 " Theme
-set background=dark " for the dark version
 let g:one_allow_italics = 1
 
 " Change color for matching parens
@@ -321,6 +342,7 @@ augroup pencil
   autocmd FileType markdown,mkd call pencil#init()
   autocmd FileType text         call pencil#init()
 augroup END
+
 let g:pencil#wrapModeDefault = 'soft'
 let g:pencil#textwidth = 80
 let g:pencil#joinspaces = 0
@@ -333,7 +355,7 @@ let g:pencil#map#suspend_af = 'K'
 set nocursorcolumn
 set nocursorline
 " Ripgrep better search
-"
+
 " A:help
 " Goyo
 nmap <leader>g :Goyo<CR>
@@ -344,4 +366,3 @@ map <leader>e :execute 'bufdo :e' <bar> syntax on <CR>
 nnoremap <silent> Q gqap
 xnoremap <silent> Q gq
 nnoremap <silent> <leader>Q vapJgqap
-
