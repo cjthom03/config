@@ -206,7 +206,8 @@ let g:NERDTreeWinPos = 'right'
 let g:NERDTreeShowHidden=1
 
 " FZF
-map <C-b> :Buffers<CR>          " show all buffers in a pop up window
+" show all buffers in a pop up window
+map <C-b> :Buffers<CR>
 nmap <leader>bn :bn<CR>         " go to the next buffer
 nmap <leader>bp :bp<CR>         " go to the previous buffer
 map <C-f> :Ag<CR>
@@ -221,7 +222,7 @@ inoremap jj <ESC>
 " This allows buffers to be hidden if you've modified a buffer.
 " This is almost a must if you wish to use buffers in this way.
 set hidden
-" To op <cpen a new empty buffer
+" To open a new empty buffer
 " This replaces :tabnew which I used to bind to this mapping
 nmap <leader>t :enew<cr>
 " Buffers
@@ -233,14 +234,13 @@ nmap <leader>bl :ls<CR>
 " Close quickfix window
 nmap <leader>c :ccl<CR>
 " Easier split navigation
-nmap <C-J> <C-W><C-J>
-nmap <C-K> <C-W><C-K>
-nmap <C-L> <C-W><C-L>
-nmap <C-H> <C-W><C-H>
+
 " Remove highlighting on ESC
 nnoremap <esc> :noh<return><esc>
+
 set splitbelow
 set splitright
+
 " Ale
 let g:ale_completion_enabled = 1
 let g:ale_sign_column_always = 1
@@ -360,9 +360,28 @@ set nocursorline
 " Goyo
 nmap <leader>g :Goyo<CR>
 " Noah's QOL Mappings
+"
+" Carriage Return + space will save the current buffer
 map <CR> :w<CR>
 map <leader>v :vert sb<CR>
 map <leader>e :execute 'bufdo :e' <bar> syntax on <CR>
 nnoremap <silent> Q gqap
 xnoremap <silent> Q gq
 nnoremap <silent> <leader>Q vapJgqap
+
+" Vim Terminal
+" use ESC to return to normal mode
+tnoremap <leader><Esc> <C-\><C-n>                 " Space + Esc key will get you out of terminal mode
+tnoremap <C-v><Esc> <Esc>
+
+nmap <C-J> <C-W><C-J>                             " Normal Mode: CTRL + J, K, L, H
+nmap <C-K> <C-W><C-K>                             " move to the buffer on the top, bottom, left, right
+nmap <C-L> <C-W><C-L>
+nmap <C-H> <C-W><C-H>
+tnoremap <C-J> <C-\><C-n><C-W><C-J>
+tnoremap <C-K> <C-\><C-n><C-W><C-K>
+tnoremap <C-L> <C-\><C-n><C-W><C-L>
+tnoremap <C-H> <C-\><C-n><C-W><C-H>
+
+" Rubocop just LOVES double quotes enough for me to write this find and replace
+nmap <leader>' :s/'/"/g<CR>
