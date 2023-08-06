@@ -1,0 +1,112 @@
+set number relativenumber
+set scrolloff=5
+set clipboard+=unnamed,unnamedplus
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+set showmode
+set showcmd
+
+" Plugins
+set quickscope
+set ideajoin
+Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-repeat'
+Plug 'tommcdo/vim-exchange'
+Plug 'vim-matchit'
+Plug 'terryma/vim-multiple-cursors'
+
+let mapleader = " "
+
+" clear highlights with esc
+nnoremap <esc> :noh<return><esc>
+nnoremap vv ^v$
+
+" Alt (or Option key)
+map <A-b> <Action>(ToggleLineBreakpoint)
+
+nnoremap <C-o> :action Back<CR>
+nnoremap <C-S-o> :action Forward<CR>
+nnoremap <Leader>c<Leader> :action CommentByLineComment<CR>
+vnoremap <Leader>c<Leader> :action CommentByLineComment<CR>
+nnoremap <Leader><Leader>r :action ReformatWithPrettierAction<CR>
+nnoremap <C-I> :action EditorCloneCaretBelow<CR>
+vnoremap <C-I> :action EditorCloneCaretBelow<CR>
+nnoremap <C-S-I> :action EditorCloneCaretAbove<CR>
+vnoremap <C-S-I> :action EditorCloneCaretAbove<CR>
+
+map <leader>b <Action>(ShowSettingsAndFindUsages)
+map <leader>a <Action>(Annotate)
+map <leader>cn :action MarkNotificationsAsRead<CR>
+map <leader>h <Action>(Vcs.ShowTabbedFileHistory)
+map <leader>o <Action>(FileStructurePopup)
+map <leader>t :action ActivateTerminalToolWindow<CR>
+map <leader>r <Action>(RefactoringMenu)
+map <leader>z <Action>(ToggleDistractionFreeMode)
+map <S-leader> <Action>(GotoNextError)
+
+" Keymap conflicts
+sethandler <C-I> a:vim
+sethandler <C-O> a:vim
+sethandler <C-S-O> a:vim
+sethandler <C-R> a:vim
+sethandler <C-B> a:vim
+sethandler <C-F> a:vim
+sethandler <C-H> a:vim
+sethandler <C-L> a:vim
+sethandler <C-N> a:vim
+sethandler <S-C-N> a:vim
+sethandler <C-P> a:vim
+
+" Letting the IDE hold on to these... for now
+sethandler <C-2> a:ide
+sethandler <C-S-2> a:ide
+sethandler <C-6> a:ide
+sethandler <C-S-6> a:ide
+sethandler <C-A> a:ide
+sethandler <C-D> a:ide
+sethandler <C-E> a:ide
+sethandler <C-G> a:ide
+sethandler <C-J> a:ide
+sethandler <C-K> a:ide
+sethandler <C-M> a:ide
+sethandler <C-S> a:ide
+sethandler <C-T> a:ide
+sethandler <C-V> a:ide
+sethandler <C-W> a:ide
+
+" QuickScope plugin
+" https://plugins.jetbrains.com/plugin/19417-ideavim-quickscope
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+"  let g:qs_primary_color = '#ff0000' to configure the first occurrence character color
+"  let g:qs_secondary_color = '#ff00ff' to configure the second occurrence character color.
+
+" Multi-cursor plugin
+" Remap multiple-cursors shortcuts to match terryma/vim-multiple-cursors
+nmap <C-n> <Plug>NextWholeOccurrence
+xmap <C-n> <Plug>NextWholeOccurrence
+nmap g<C-n> <Plug>NextOccurrence
+xmap g<C-n> <Plug>NextOccurrence
+nmap <C-x> <Plug>SkipOccurrence
+xmap <C-x> <Plug>SkipOccurrence
+nmap <C-p> <Plug>RemoveOccurrence
+xmap <C-p> <Plug>RemoveOccurrence
+" Note that the default <A-n> and g<A-n> shortcuts don't work on Mac due to dead keys.
+" <A-n> is used to enter accented text e.g. ñ
+nmap <S-C-n> <Plug>AllWholeOccurrences
+xmap <S-C-n> <Plug>AllWholeOccurrences
+nmap g<S-C-n> <Plug>AllOccurrences
+xmap g<S-C-n> <Plug>AllOccurrences
+
+" TODO
+" map <leader>f <Plug>(easymotion-s)
+" map <leader>e <Plug>(easymotion-f)
+" map <leader>c <Action>(Stop)
+" map <leader>d <Action>(Debug)
+
+
+
+" Notes:
+" :actionlist [pattern] shows mappings
+" search for "IdeaVim: track actionIds https://github.com/JetBrains/ideavim#finding-action-ids
